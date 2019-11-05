@@ -1,6 +1,6 @@
 ---
 title: "3618 turn-in 1"
-author: "Yining Sun"
+author: "Yining Sun", "Zhangyue Chen"
 date: "2019/11/4"
 output: html_document
 ---
