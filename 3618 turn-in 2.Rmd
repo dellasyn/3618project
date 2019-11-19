@@ -32,7 +32,7 @@ for (time in 1:payment_number){
 
 amortization_table <- cbind(I,PR,OB)
 rownames(amortization_table) = c(0, 1:num_payments)
-colnames(amortization_table) = c("Interest paid", "principle repaid", "outstanding")
+colnames(amortization_table) = c("interest paid", "principle repaid", "outstanding balance")
 print(amortization_table)
 ```
 
