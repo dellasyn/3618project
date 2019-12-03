@@ -1,0 +1,85 @@
+---
+title: "3618 turn-in 3"
+author: "Yining Sun","Zhangyue Chen"
+date: "2019/12/2"
+output: html_document
+---
+
+
+```{r}
+#creat a bond amortization table
+
+# set up the values
+
+n <- 10
+C <- 10000
+r <- 0.06
+i <- 0.04
+
+
+# treat i as a nominal annual rate, convertible semiannually, treat r as the annual coupon rate, treat n as the number of years until redemption for bond, and treat C as both the par and redemption value for bond
+j <- (1+i/2)^2-1
+
+
+# calculate the coupon size of bond and give it a descriptive name like coupon_size
+coupon_size <- r*C
+
+
+#calculate the present value of bonds
+P <- coupon_size*((1-(1+j)^(-n))/j)+C*(1+j)^(-n)
+
+
+# call up or reuse loan amortization code to create a bond amortization table
+I <- matrix(1+n,0,0)
+PR <- matrix(0,1+n,0)
+BV <- matrix(0,0,1+n)
+I[1] <- 0
+PR[1] <- 0
+BV[1] <- P
+
+for (time in 1:n){
+  I[time+1] <- BV[time]*j
+  PR[time+1] <- coupon_size-I[time+1]
+  BV[time+1] <- BV[time]- PR[time+1]
+}
+
+coupon_table <- cbind(I,PR,BV)
+rownames(coupon_table) = c(0, 1:n)
+colnames(coupon_table) = c("interest paid", "principal repaid", "book value")
+print(coupon_table)
+
+
+# perform a check to make sure that the book value of bond is C just after the final coupon
+book_value <- BV[n+1]
+if(isTRUE(all.equal(book_value,C))){
+ print("The book value of the bond is C just after the final coupon")
+}else{
+  print ("The book value of the bond is not C just after the final coupon")
+}
+
+
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
